@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - flowsight-demo-bootstrap-source.zip
   workflow_dispatch:
 
 permissions:
