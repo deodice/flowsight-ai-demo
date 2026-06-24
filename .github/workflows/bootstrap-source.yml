@@ -1,0 +1,37 @@
+name: Bootstrap FlowSight demo source
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - flowsight-demo-bootstrap-source.zip
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Unpack FlowSight source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f flowsight-demo-bootstrap-source.zip ]; then
+            echo "flowsight-demo-bootstrap-source.zip was not found at the repository root."
+            exit 1
+          fi
+          cp flowsight-demo-bootstrap-source.zip /tmp/flowsight-demo-bootstrap-source.zip
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          unzip -q /tmp/flowsight-demo-bootstrap-source.zip -d .
+          rm -f .github/workflows/bootstrap-source.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy FlowSight AI demo source"
+          git push
