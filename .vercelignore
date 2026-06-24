@@ -1,0 +1,10 @@
+.env
+.venv/
+.pytest_cache/
+node_modules/
+apps/api/
+docker-compose.yml
+outputs/
+work/
+*.db
+*.log
