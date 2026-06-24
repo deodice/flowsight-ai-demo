@@ -21,15 +21,19 @@ jobs:
         run: |
           set -euo pipefail
           if [ ! -f flowsight-demo-bootstrap-source.zip ]; then
-            echo "flowsight-demo-bootstrap-source.zip was not found at the repository root."
-            exit 1
+            echo "No bootstrap ZIP present; nothing to unpack."
+            exit 0
           fi
           cp flowsight-demo-bootstrap-source.zip /tmp/flowsight-demo-bootstrap-source.zip
-          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          unzip -q /tmp/flowsight-demo-bootstrap-source.zip -d .
-          rm -f .github/workflows/bootstrap-source.yml
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github -exec rm -rf {} +
+          unzip -q -o /tmp/flowsight-demo-bootstrap-source.zip -d . -x ".github/*"
+          rm -f flowsight-demo-bootstrap-source.zip
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
+          if git diff --cached --quiet; then
+            echo "No repository changes to commit."
+            exit 0
+          fi
           git commit -m "Deploy FlowSight AI demo source"
           git push
