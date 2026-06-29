@@ -1,0 +1,43 @@
+name: Cleanup mobile toolbar revision
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/mobile-toolbar-cleanup.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove unused collapse state
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const file = 'apps/web/components/control-tower.tsx';
+          const before = '  const [collapsed, setCollapsed] = useState(false);\n';
+          const text = fs.readFileSync(file, 'utf8');
+          if (text.includes(before)) {
+            fs.writeFileSync(file, text.replace(before, ''), 'utf8');
+          }
+          NODE
+      - name: Commit cleanup
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/components/control-tower.tsx
+          git rm --ignore-unmatch .github/workflows/mobile-toolbar-cleanup.yml
+          if git diff --cached --quiet; then
+            echo "No cleanup needed"
+            exit 0
+          fi
+          git commit -m "Clean up mobile toolbar state"
+          git push
