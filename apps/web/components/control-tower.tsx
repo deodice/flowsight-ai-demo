@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity, AlertTriangle, ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Award, Bell, Bot, Boxes, Building2,
   Calendar, Check, ChevronDown, ChevronRight, ClipboardCheck, Clock3, Download, FileBarChart,
   FileCheck2, FileSpreadsheet, Flag, Gauge, HelpCircle, Inbox, LayoutDashboard, ListChecks, Menu,
-  Handshake, Mail, MessageSquareMore, PackageSearch, PanelLeftClose, Plus, Search, Send, Settings, ShieldCheck,
+  Handshake, Mail, MessageSquareMore, PackageSearch, Plus, Search, Send, Settings, ShieldCheck,
   Sparkles, Target, ThumbsDown, ThumbsUp, Truck, UploadCloud, Users, WandSparkles, X, Zap
 } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -27,6 +27,35 @@ const icons: Record<string, React.ReactNode> = {
   "freight-admin": <Settings />, "freight-tour": <Sparkles />
 };
 
+const navShortLabels: Record<string, string> = {
+  overview: "Home",
+  exceptions: "Risks",
+  inventory: "Stock",
+  "purchase-orders": "POs",
+  forecasting: "Forecast",
+  scorecards: "Scores",
+  tasks: "Tasks",
+  imports: "Import",
+  quality: "Quality",
+  ai: "AI Brief",
+  reports: "Reports",
+  feedback: "Feedback",
+  admin: "Admin",
+  "release-notes": "Notes",
+  freight: "Command",
+  "freight-opportunities": "Loads",
+  "freight-carriers": "Carriers",
+  "freight-rfqs": "RFQs",
+  "freight-awards": "Awards",
+  "freight-operations": "Ops",
+  "freight-tenders": "Tenders",
+  "freight-quotes": "Quotes",
+  "freight-invoices": "Invoices",
+  "freight-client": "Client",
+  "freight-admin": "Admin",
+  "freight-tour": "Tour"
+};
+
 export function ControlTower({ section }: { section: string }) {
   const [collapsed, setCollapsed] = useState(false);
   const [tenant, setTenant] = useState("Industrial Distributor Demo");
@@ -40,11 +69,14 @@ export function ControlTower({ section }: { section: string }) {
     setSelected(null); notify(status === "In progress" ? "Task created and assigned to Maya Chen" : "Exception updated");
   };
 
+  useEffect(() => {
+    document.querySelector<HTMLElement>(`.sidebar nav a[data-nav-key="${section}"]`)?.scrollIntoView?.({ block: "center", inline: "nearest" });
+  }, [section]);
   return (
     <div className="app-shell">
-      <aside className={collapsed ? "sidebar collapsed" : "sidebar"}>
-        <div className="side-logo"><Logo compact={collapsed} /><button onClick={() => setCollapsed(!collapsed)}><PanelLeftClose /></button></div>
-        <nav>{navSections.map(([key, label]) => <Link key={key} className={section === key ? "active" : ""} href={`/app/${key}`}>{icons[key]}<span>{label}</span>{key === "exceptions" && <em>18</em>}</Link>)}<div className="nav-group-label"><span>FREIGHT PROCUREMENT</span></div>{procurementNavSections.map(([key,label]) => <Link key={key} className={section === key ? "active" : ""} href={`/app/${key}`}>{icons[key]}<span>{label}</span>{key === "freight-opportunities" && <em>4</em>}</Link>)}<div className="nav-group-label"><span>FREIGHT OPERATIONS</span></div>{freightOperationsNavSections.map(([key,label]) => <Link key={key} className={section === key ? "active" : ""} href={`/app/${key}`}>{icons[key]}<span>{label}</span>{key === "freight-tenders" && <em>18</em>}</Link>)}</nav>
+      <aside className="sidebar" aria-label="FlowSight app navigation">
+        <div className="side-logo"><Logo compact /></div>
+        <nav>{navSections.map(([key, label]) => <Link key={key} data-nav-key={key} className={section === key ? "active" : ""} href={`/app/${key}`} title={label} aria-label={label}>{icons[key]}<span>{navShortLabels[key] ?? label}</span>{key === "exceptions" && <em>18</em>}</Link>)}<div className="nav-group-label"><span>PROCURE</span></div>{procurementNavSections.map(([key,label]) => <Link key={key} data-nav-key={key} className={section === key ? "active" : ""} href={`/app/${key}`} title={label} aria-label={label}>{icons[key]}<span>{navShortLabels[key] ?? label}</span>{key === "freight-opportunities" && <em>4</em>}</Link>)}<div className="nav-group-label"><span>OPS</span></div>{freightOperationsNavSections.map(([key,label]) => <Link key={key} data-nav-key={key} className={section === key ? "active" : ""} href={`/app/${key}`} title={label} aria-label={label}>{icons[key]}<span>{navShortLabels[key] ?? label}</span>{key === "freight-tenders" && <em>18</em>}</Link>)}</nav>
         <div className="side-bottom"><button><HelpCircle /><span>Help & guides</span></button><div className="profile"><span>MC</span><div><b>Maya Chen</b><small>Tenant admin</small></div><ChevronRight /></div></div>
       </aside>
       <div className="app-main">
