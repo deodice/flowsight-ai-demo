@@ -57,7 +57,6 @@ const navShortLabels: Record<string, string> = {
 };
 
 export function ControlTower({ section }: { section: string }) {
-  const [collapsed, setCollapsed] = useState(false);
   const [tenant, setTenant] = useState("Industrial Distributor Demo");
   const [exceptions, setExceptions] = useState(seedExceptions);
   const [selected, setSelected] = useState<ExceptionItem | null>(null);
