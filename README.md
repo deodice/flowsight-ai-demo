@@ -4,6 +4,12 @@ FlowSight AI is a multi-tenant operations and freight intelligence platform for 
 
 The repository contains a polished Next.js product experience, a FastAPI domain API, PostgreSQL models and migrations, Redis/Celery jobs, S3-compatible storage, realistic demo tenants, forecasting and anomaly services, tests, and containerized local deployment.
 
+> **Implementation status:** FlowSight is a product prototype and reference
+> backend. The public hosted experience is a browser-only demo using fictional
+> data; it is not connected to production identity, APIs, integrations, billing,
+> or customer data. See
+> [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
+
 ## Architecture
 
 ```mermaid
@@ -72,7 +78,7 @@ Freight plans are represented by Starter ($249/month), Growth ($599/month), and 
 
 ## Deploy a private demo
 
-For a limited audience, deploy the web demo and enable the built-in access gate with `DEMO_ACCESS_ENABLED=true`, `DEMO_ACCESS_USERNAME`, and `DEMO_ACCESS_PASSWORD`. The included `vercel.json` is configured for a no-Docker Vercel deployment from the repository root. See [docs/DEMO_DEPLOYMENT.md](docs/DEMO_DEPLOYMENT.md).
+For a limited audience, deploy the web demo and enable the built-in access gate with `DEMO_ACCESS_ENABLED=true`, `DEMO_ACCESS_USERNAME`, and `DEMO_ACCESS_PASSWORD`. This is a presentation convenience for fictional data, not production authentication. The included `vercel.json` is configured for a no-Docker Vercel deployment from the repository root. See [docs/DEMO_DEPLOYMENT.md](docs/DEMO_DEPLOYMENT.md).
 
 ## Verify
 
@@ -92,6 +98,17 @@ $env:PYTHONPATH="apps/api"
 
 ## Commercial defaults
 
-The product includes Pilot, Starter, Growth, and Scale entitlements. The paid pilot is set to the blueprint’s recommended $2,500 one-time offer, credited upon conversion. The demo emphasizes measurable risk and time-to-value rather than generic AI claims.
+The product includes Pilot, Starter, Growth, and Scale entitlements. The paid pilot is set to the blueprint's recommended $2,500 one-time offer, credited upon conversion. This is a pricing hypothesis represented in the demo, not evidence of sales or customer acceptance. The demo emphasizes measurable risk and time-to-value rather than generic AI claims.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the system design and [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) for the sales path.
+
+## Project governance
+
+- [Implementation status](docs/IMPLEMENTATION_STATUS.md)
+- [Security policy and private reporting](SECURITY.md)
+- [Contribution guide](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+
+No repository-wide open-source license has been selected. The absence of a
+license means no permission is granted to copy, modify, or redistribute this
+repository; licensing should be decided deliberately before broader reuse.
