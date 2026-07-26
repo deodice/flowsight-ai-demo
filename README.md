@@ -4,7 +4,11 @@ FlowSight AI is a multi-tenant operations and freight intelligence platform for 
 
 The repository contains a polished Next.js product experience, a FastAPI domain API, PostgreSQL models and migrations, Redis/Celery jobs, S3-compatible storage, realistic demo tenants, forecasting and anomaly services, tests, and containerized local deployment.
 
+> **Implementation status:** The hosted Vercel experience is a fictional-data browser demo and does not currently call the included API. The FastAPI/PostgreSQL backend runs and is tested separately for local development and production-pilot work. See [the demo deployment guide](docs/DEMO_DEPLOYMENT.md) for deployment caveats.
+
 ## Architecture
+
+The diagram below shows the intended production topology.
 
 ```mermaid
 flowchart LR
