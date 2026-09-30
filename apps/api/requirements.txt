@@ -5,7 +5,7 @@ alembic==1.16.2
 psycopg[binary]==3.2.9
 pydantic-settings==2.9.1
 python-multipart==0.0.20
-PyJWT==2.10.1
+PyJWT==2.14.0
 pwdlib[argon2]==0.2.1
 email-validator==2.2.0
 pandas==2.3.3
